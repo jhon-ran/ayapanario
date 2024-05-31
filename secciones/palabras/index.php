@@ -43,7 +43,7 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
   </div>
   <div class="card-body">
     <div class="table-responsive-sm">
-      <table class="table" id="tabla_id">
+      <table class="table table-hover" id="tabla_id">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -55,13 +55,13 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         </thead>
         <tbody>
         <?php foreach($palabras as $registro){ ?>
-          <tr class="">
+          <tr class="responsive-sm">
             <td scope="row"><?php echo $registro['id']?></td>
             <td><?php echo $registro['ayapaneco']?></td>
             <td><?php echo $registro['id_categoria']?></td>
             <td><?php echo $registro['significado']?></td>
             <td>
-              <a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id']?>" role="button">Editar</a>
+              <a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id']?>" role="button">Editar</a></div>
               <!--Se sustituye el link del registro por la función SweatAlert para confirmar borrado-->
               <a name="" id="" class="btn btn-danger" href="javascript:borrar(<?php echo $registro['id']?>);">Eliminar</a>
             </td>
@@ -73,6 +73,7 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
   <!--Nuevo look termina-->
+
 
 <!-- Se llama el footer desde los templates-->
 <!-- ../../ sube 2 niveles para poder acceder al folder de templates desde la posición actual-->
