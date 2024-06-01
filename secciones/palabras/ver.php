@@ -57,7 +57,7 @@ if(isset($_GET['txtID'])){
     <audio id="sound"></audio>
     <div class="container">
         <div class="search-box">
-            <input type="text" placeholder="Busca otra palabra" id="inp-word" />
+            <input type="text" placeholder="Busca palabra" id="inp-word" />
             <button id="search-btn">Buscar</button>
         </div>
         <div class="result" id="result">
@@ -67,14 +67,14 @@ if(isset($_GET['txtID'])){
             </div>
             <div class='details'>
                 <p><?php echo $registro['gramatical']?></p>
-                <p>/<?php echo $afi;?>/</p> ->
-                <p><?php echo $raiz;?></p>
+                <p>/<?php echo $afi;?>/</p>
+                <p>R-> <?php echo $raiz;?></p>
             </div>
         <p class='word-meaning'><?php echo $significado;?></p>
         <p class='word-example'><?php echo $ejemplo_aya;?></p>
         <p class='word-example'><?php echo $ejemplo_esp;?></p>
-
         </div>
+        <a name="" id="" href="index.php" role="button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
     </div>
 
 </body>

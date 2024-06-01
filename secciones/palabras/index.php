@@ -35,15 +35,15 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <!-- ../../ sube 2 niveles para poder acceder al folder de templates desde la posición actual-->
 <?php include("../../templates/header.php"); ?>
 
-
-<h2>Palabras</h2>
+<br>
+<h1 id="tituloInicio" class="text-center text-light">Encuentra tu palabra en ayapanario</h1>
 <br>
 <!--Nuevo look inicia-->
 <div class="card">
   <div class="card-header">
     <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Nueva palabra</a>
   </div>
-  <div class="card-body">
+  <div class="card-body" id="prueba">
     <div class="table-responsive-sm">
       <table class="table table-hover" id="tabla_id">
         <thead>
@@ -63,7 +63,7 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
             <td>
               <a name="" id="" class="btn btn-dark" href="ver.php?txtID=<?php echo $registro['id']?>" role="button">Ver</a></div>
               <!--Se sustituye el link del registro por la función SweatAlert para confirmar borrado-->
-              <a name="" id="" class="btn btn-danger" href="javascript:borrar(<?php echo $registro['id']?>);">Eliminar</a>
+              <!-- <a name="" id="" class="btn btn-danger" href="javascript:borrar(<?php echo $registro['id']?>);">Eliminar</a>-->
             </td>
           </tr>
           <?php }?>
