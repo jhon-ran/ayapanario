@@ -22,24 +22,26 @@ INSERT INTO `palabra_campos` (`id`, `id_palabra`, `id_campo`) VALUES (NULL, '1',
 */
 
 //******Inicia código para mostrar todos los registros******
-//Se prepara sentencia para seleccionar todos los datos 
-$sentencia = $conexion->prepare("SELECT * FROM palabras");
+//se hace una subconsulta y se asigna a un alias 'gramatical' para obtener el nombre de la categoria asociada
+$sentencia = $conexion->prepare("SELECT *,
+(SELECT categoria FROM categorias WHERE categorias.id = palabras.id_categoria limit 1) as gramatical
+FROM palabras");
 $sentencia->execute();
 $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-//Para probar que se esté leyendo todos los datos de la tabla, descomentar
-//print_r($palabras);
+
 //******Termina código para mostrar todos los registros******
 ?>
 <!-- Se llama el header desde los templates-->
 <!-- ../../ sube 2 niveles para poder acceder al folder de templates desde la posición actual-->
 <?php include("../../templates/header.php"); ?>
 
-<h2>Palabras</h2>
 
+<h2>Palabras</h2>
+<br>
 <!--Nuevo look inicia-->
 <div class="card">
   <div class="card-header">
-    <a name="" id="" class="btn btn-primary" href="crear.php" role="button" >Nueva palabra</a>
+    <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Nueva palabra</a>
   </div>
   <div class="card-body">
     <div class="table-responsive-sm">
@@ -48,20 +50,18 @@ $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Palabra</th>
-            <th scope="col">Categoria</th>
             <th scope="col">Significado</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="responsive-sm>
         <?php foreach($palabras as $registro){ ?>
           <tr class="responsive-sm">
             <td scope="row"><?php echo $registro['id']?></td>
             <td><?php echo $registro['ayapaneco']?></td>
-            <td><?php echo $registro['id_categoria']?></td>
             <td><?php echo $registro['significado']?></td>
             <td>
-              <a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id']?>" role="button">Editar</a></div>
+              <a name="" id="" class="btn btn-dark" href="ver.php?txtID=<?php echo $registro['id']?>" role="button">Ver</a></div>
               <!--Se sustituye el link del registro por la función SweatAlert para confirmar borrado-->
               <a name="" id="" class="btn btn-danger" href="javascript:borrar(<?php echo $registro['id']?>);">Eliminar</a>
             </td>

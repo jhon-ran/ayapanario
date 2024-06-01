@@ -1,12 +1,13 @@
 </main>
+<!--
 <footer class="bg-body-tertiary text-center text-lg-start">
-  <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
     © 2024 Copyright:
     <a class="text-body" href="">Ayapaneco</a>
   </div>
-  <!-- Copyright -->
 </footer>
+-->
+
 <!-- Bootstrap JavaScript Libraries -->
 <script
     src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -25,6 +26,10 @@
   $(document).ready(function(){
     $("#tabla_id").DataTable({
       "pageLength":10,
+      //para que sea responsivo
+      responsive: true,
+      //para que columnas se reduzcan con pantalla chica
+      autoWidth: false,
       lengthMenu:[
         [3,5,10,25,50],
         [3,5,10,25,50]
