@@ -30,6 +30,13 @@ if(isset($_GET['txtID'])){
         $id_pronunciacion = $registro["id_pronunciacion"];
         //print_r($registro);
 
+        //se hace una subconsulta y se asigna a un alias 'campo semnántico' para obtener el nombre del campo asociado a la palabra en la tabla de unión palabra_campos
+        $sentencia = $conexion->prepare("SELECT *,
+        (SELECT nombre FROM campos WHERE campos.id = palabra_campos.id_campo) as campo_semantico
+        FROM palabra_campos");
+        $sentencia->execute();
+        $campo_semantico = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
         //Para obtener nombre de categorias
         //$sentencia = $conexion->prepare("SELECT * FROM categorias WHERE id=:id");
         //$sentencia->bindParam(":id",$id_categoria);
@@ -67,6 +74,12 @@ if(isset($_GET['txtID'])){
             </div>
             <div class='details'>
                 <p><?php echo $registro['gramatical']?></p>
+                <!--Loop para obtener los valores de la subconsulta de la tabla palabra_campos-->
+                (
+                <?php foreach($campo_semantico as $registro){ ?>
+                    <p><?php echo $registro['campo_semantico']?></p>
+                <?php }?>
+                )
                 <p>/<?php echo $afi;?>/</p>
                 <p>R-> <?php echo $raiz;?></p>
             </div>

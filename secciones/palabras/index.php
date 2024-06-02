@@ -29,6 +29,14 @@ FROM palabras");
 $sentencia->execute();
 $palabras = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
+//se hace una subconsulta y se asigna a un alias 'campo semnántico' para obtener el nombre del campo asociado a la palabra en la tabla de unión palabra_campos
+$sentencia = $conexion->prepare("SELECT *,
+(SELECT nombre FROM campos WHERE campos.id = palabra_campos.id_campo) as campo_semantico
+FROM palabra_campos");
+$sentencia->execute();
+$campo_semantico = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+//print_r($campo_semantico);
+
 //******Termina código para mostrar todos los registros******
 ?>
 <!-- Se llama el header desde los templates-->
