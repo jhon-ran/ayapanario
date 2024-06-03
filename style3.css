@@ -13,7 +13,7 @@
     background: linear-gradient(184deg, #8754ff, #8e2de2);
   }
   .container {
-    background-color: #d2daff;
+    background-color: #fff;
     width: 90vmin;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -58,7 +58,7 @@
   .result .word {
     display: flex;
     justify-content: space-between;
-    margin-top: 80px;
+    margin-top: auto;
   }
   .result button {
     background-color: transparent;

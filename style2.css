@@ -1,8 +1,10 @@
 
 body {
-    background: #8e2de2;
-    background: -webkit-linear-gradient(to right, #8e2de2,
-    #4a00e0);
-    background: linear-gradient(to right, #8e2de2,
-    #4a00e0);
+    height: 100vh;
+    background: linear-gradient(184deg, #8754ff, #8e2de2);
+}
+
+.card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
 }

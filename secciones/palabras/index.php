@@ -51,7 +51,7 @@ $campo_semantico = $sentencia->fetchAll(PDO::FETCH_ASSOC);
   <div class="card-header">
     <a name="" id="" class="btn btn-primary" href="crear.php" role="button">Nueva palabra</a>
   </div>
-  <div class="card-body" id="prueba">
+  <div class="card-body">
     <div class="table-responsive-sm">
       <table class="table table-hover" id="tabla_id">
         <thead>
