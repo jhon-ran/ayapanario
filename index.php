@@ -1,3 +1,44 @@
+<?php 
+include("bd.php"); 
+// Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Prepare the SQL query
+    $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE email = :email AND password = :password');
+
+    // Bind parameters
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $password);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Check if a row is returned
+    if ($stmt->rowCount() > 0) {
+        // Login is correct, start a new session
+        foreach($stmt as $usuario) {
+            session_start();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = $email;
+            
+            $_SESSION['nombres']= $usuario['nombres'];
+            $_SESSION['apellidos']= $usuario['apellidos'];
+            $_SESSION['tipo']= $usuario['tipo'];
+        }
+        
+        header('Location: secciones/palabras/index.php');
+        exit;
+    } else {
+        // Login is incorrect, display an error message
+        $error = 'Usuario o contraseña incorrecto';
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,15 +52,14 @@
     <!-- estilo para personalizar -->
     <link rel="stylesheet" href="style.css">
     <!-- cdn DataTables v.1.12.1 -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" />
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+
     <!-- cdn para Sweet Alert 2, alertas de acciones -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
 
-    <form class="my-form">
+    <form class="my-form" action="index.php" method="post">
         <div class="login-welcome-row">
             <h1>Bienvenid@ a ayapanario&#x1F44F;</h1>
             <p>Ingresa tus datos</p>
@@ -35,7 +75,7 @@
             </svg>
         </div>
         <div class="input__wrapper">
-            <input id="password" type="password" class="input__field" placeholder="Your Password" required>
+            <input id="password" type="password" name="password" class="input__field" placeholder="Your Password" required>
             <label for="password" class="input__label">
                 Contraseña
             </label>
@@ -51,9 +91,7 @@
         <div class="mb-3">
             <input type="checkbox" onclick="mostrarPassword()"> <small>Mostrar</small>
         </div>
-        <button type="submit" class="my-form__button">
-            Ingresar
-        </button>
+        <button type="submit" class="my-form__button">Ingresar </button>
         <!-- Para logearse con Google-->
         <!--
         <div class="socials-row">
@@ -71,10 +109,25 @@
                 </a>
             </div>
         </div>
+        <?php if (isset($error)):?>
+            <p style="color: red;"><?php echo $error;?></p>
+        <?php endif;?>
     </form>
 
-    <script src="js/script.js"></script>
     <script src="js/mostrarPassword.js"></script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+<script
+    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"
+></script>
 </body>
 
 </html>
