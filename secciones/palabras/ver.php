@@ -21,6 +21,7 @@ if(isset($_GET['txtID'])){
         $registro = $sentencia->fetch(PDO::FETCH_LAZY);
         //Asignar los valores que vienen del formulario (POST)
         $ayapaneco = $registro["ayapaneco"];
+        $variante = $registro["variante"];
         $afi = $registro["afi"];
         $gramatical = $registro["gramatical"];
         $significado = $registro["significado"];
@@ -77,6 +78,11 @@ if(isset($_GET['txtID'])){
         <div class="result" id="result">
             <div class='word'>
                 <h3><?php echo $ayapaneco;?></h3>
+                <!--Valitacion si columna variante está vacia o contiene *-->
+                <?php if ($variante != '*') { ?>
+                    <h3><?php echo $variante;?></h3>
+                <?php }?>
+
                 <button onclick='playSound()'><i class='fas fa-volume-up'></i></button>
             </div>
             <div class='details'>
@@ -93,7 +99,7 @@ if(isset($_GET['txtID'])){
             <?php foreach($campo_semantico as $registro){ ?>
                 <p><small><?php echo $registro['campo_semantico']?></small></p>
             <?php }?>
-            <a name="" id="" href="index.php" role="button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
+            <a name="" id="" href="index.php" role="button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a> Regresar
     </div>
 
 <!--

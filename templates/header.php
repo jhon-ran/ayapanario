@@ -1,16 +1,16 @@
 <?php
 //url para conexión en hosting
-//$url_base = "/xpert/";
+//$url_base = "/ayapanario/";
 //url de base en localhost para concatenar en la navbar y evitar errores de redirección (dinámica)
-//$url_base = "http://localhost/xpert/";
+$url_base = "http://localhost/ayapanario/";
 
 //si no existe la variable de sesión usuario_id, se redirige al login
-/*
-if(!isset($_SESSION['usuario_id'])){
-    header('Location:'.$url_base.'login.php');
+
+if(!isset($_SESSION['loggedin'])){
+    header('Location:'.$url_base.'index.php');
     exit();
 }
-*/
+
 
 //print_r($_SESSION['usuario_tipo'])
 ?>
@@ -46,8 +46,29 @@ if(!isset($_SESSION['usuario_id'])){
 
     <body>
         <header>
-            
-        </header>       
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <ul class="nav navbar-nav">
+                    <?php if($_SESSION["tipo"]=="admin"):?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $url_base;?>secciones/palabras/">Palabras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $url_base;?>secciones/usuarios/">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $url_base;?>cerrar.php">Cerrar sesión</a>
+                    </li>
+                    <?php elseif($_SESSION["tipo"]=="colaborador"):?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo $url_base;?>secciones/palabras/">Palabras</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo $url_base;?>cerrar.php">Cerrar sesión</a>
+                        </li>
+                        <?php endif; ?>
+                </ul>
+            </nav>
+        </header>         
 
         <main class="container">
             <!--Inicia código de mensaje de alerta cuando se borra registro-->
