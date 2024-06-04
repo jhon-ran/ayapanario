@@ -46,7 +46,7 @@ if(!isset($_SESSION['loggedin'])){
 
     <body>
         <header>
-            <nav class="navbar navbar-expand navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
                 <ul class="nav navbar-nav">
                     <?php if($_SESSION["tipo"]=="admin"):?>
                     <li class="nav-item">

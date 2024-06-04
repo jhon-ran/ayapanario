@@ -44,13 +44,10 @@ $campo_semantico = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <?php include("../../templates/header.php"); ?>
 
 <br>
-    <div class="p-1 mb-2 bg-light rounded-4">
-        <div class="container-fluid py-5">
-            <h2 class="display-5">Bienvenid@ al ayapanario <?php echo $_SESSION['nombres']?></h2>
-            <p class="lead"> Encuentra tu palabra aquí</p>
-        </div>
-    </div>
-
+    <header class="text-center">
+      <h1 class="text-light">Bienvenid@ <?php echo $_SESSION['nombres']?></h1>
+    </header>
+<br>
 <br>
 
 <!--Nuevo look inicia-->
