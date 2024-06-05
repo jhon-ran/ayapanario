@@ -76,6 +76,7 @@ $campo_semantico = $sentencia->fetchAll(PDO::FETCH_ASSOC);
               <a name="" id="" class="btn btn-dark" href="ver.php?txtID=<?php echo $registro['id']?>" role="button">Ver</a></div>
               <!--Se sustituye el link del registro por la función SweatAlert para confirmar borrado-->
               <!-- <a name="" id="" class="btn btn-danger" href="javascript:borrar(<?php echo $registro['id']?>);">Eliminar</a>-->
+              <a name="" id="" class="btn btn-warning" href="editar.php?txtID=<?php echo $registro['id']?>" role="button">Editar</a>
             </td>
           </tr>
           <?php }?>

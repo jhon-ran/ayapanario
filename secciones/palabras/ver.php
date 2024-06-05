@@ -102,42 +102,6 @@ if(isset($_GET['txtID'])){
             <a name="" id="" href="index.php" role="button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a> Regresar
     </div>
 
-<!--
-<br>
-        <div class="card" mx-auto" style="width: 60%;">
-            <div class="card-header">
-                <div class="search-box">
-                    <input type="text" placeholder="Busca palabra" id="inp-word" />
-                    <button id="search-btn">Buscar</button>
-                    </div>
-            </div>
-                <div class="card-body">
-                        <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo $ayapaneco;?></h5>
-                            <p class="card-text"><?php echo $significado?> </p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><?php echo $gramatical;?></li>
-                            <li class="list-group-item"><?php echo $ejemplo_aya;?></li>
-                            <li class="list-group-item"><?php echo $ejemplo_esp;?></li>
-
-                           
-                                <li class="list-group-item">
-                                    <?php foreach($campo_semantico as $registro){ ?>
-                                        <?php echo $registro['campo_semantico']?>
-                                    <?php }?>
-                                </li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="index.php" class="card-link"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                        </div>
-                </div>
-        </div>
-    -->
-
 
 </body>
 
