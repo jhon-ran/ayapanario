@@ -70,6 +70,7 @@ if(!isset($_SESSION['loggedin'])){
             </nav>
         </header>         
 
+
         <main class="container">
             <!--Inicia código de mensaje de alerta cuando se borra registro-->
         <!--Si hay algo en el métod get-->
