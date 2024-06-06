@@ -36,7 +36,7 @@ if($_POST){
                 $conn = new PDO("mysql:host=$servidor;dbname=$baseDatos",$usuario,$contrasena);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                $email = $_POST['ayapaneco'];
+                $ayapaneco = $_POST['ayapaneco'];
                 // Consulta para ver si nombre de cupón ya existe en la base de datos
                 $sql = "SELECT * FROM palabras WHERE ayapaneco = :ayapaneco";
                 $stmt = $conn->prepare($sql);

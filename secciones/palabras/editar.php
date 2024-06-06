@@ -2,6 +2,167 @@
 <?php include("../../bd.php"); 
 //se inicializa variable de sesión
 session_start();
+
+//******Inicia código para recibir registro******
+//Para verificar que se envía un id
+if(isset($_GET['txtID'])){
+        //Si esta variable existe, se asigna ese valor, de lo contrario se queda
+        $txtID = (isset($_GET['txtID']))?$_GET['txtID']:$_GET['txtID'];
+        //Se prepara sentencia para editar dato seleccionado (id)
+        $sentencia = $conexion->prepare("SELECT * FROM palabras WHERE id=:id");
+        //Asignar los valores que vienen del método GET (id seleccionado por params)
+        $sentencia->bindParam(":id",$txtID);
+        //Se ejecuta la sentencia con el valor asignado para borrar
+        $sentencia->execute();
+        //Popular el formulario con los valores de 1 registro
+        $registro = $sentencia->fetch(PDO::FETCH_LAZY);
+        //Asignar los valores que vienen del formulario (POST)
+        $ayapaneco = $registro["ayapaneco"];
+        $variante = $registro["variante"];
+        $afi = $registro["afi"];
+        $id_categoria = $registro["id_categoria"];
+        $significado = $registro["significado"];
+        $ejemplo_aya = $registro["ejemplo_aya"];
+        $ejemplo_esp = $registro["ejemplo_esp"];
+        $raiz = $registro["raiz"];
+    
+        //print_r($restricciones);
+    }
+    //******Termina código para recibir registro******
+
+if($_POST){
+        //Array para guardar los errores
+        $errores= array();
+        //Si esta variable existe, se asigna ese valor, de lo contrario se queda
+        $txtID = (isset($_POST['txtID']))?$_POST['txtID']:"";
+        //Validación: que exista la información enviada, lo vamos a igualar a ese valor,
+        //de lo contratrio lo deja en blanco
+        $ayapaneco = (isset($_POST["ayapaneco"])? $_POST["ayapaneco"]:"");
+        $variante = (isset($_POST["variante"])? $_POST["variante"]:"");
+        $afi = (isset($_POST["afi"])? $_POST["afi"]:"");
+        $id_categoria = (isset($_POST["id_categoria"])? $_POST["id_categoria"]:"");
+        $significado = (isset($_POST["significado"])? $_POST["significado"]:"");
+        $ejemplo_aya = (isset($_POST["ejemplo_aya"])? $_POST["ejemplo_aya"]:"");
+        $ejemplo_esp = (isset($_POST["ejemplo_esp"])? $_POST["ejemplo_esp"]:"");
+        $raiz = (isset($_POST["raiz"])? $_POST["raiz"]:"");
+
+        //Validar que la palabra en ayapaneco no esté vacia
+        if (empty($ayapaneco)){
+                $errores['ayapaneco']= "La palabra en ayapaneco es obligatoria";
+        }
+        //Validar si la palabra no tiene menos de 2 caracteres
+        if (strlen($ayapaneco) < 2) {
+                $errores['ayapaneco'] = "La palabra debe tener al menos 2 caracteres";
+        }
+        //Validar si la palabra no tiene más de 15 caracteres
+        if (strlen($ayapaneco) > 15) {
+                $errores['ayapaneco'] = "La palabra no puede tener más de 15 caracteres";
+        }
+
+        //******Inicia validación de de existencia de palabra en bd*****
+
+        /* validacion genere error descomentar para probar
+        try {
+                $conn = new PDO("mysql:host=$servidor;dbname=$baseDatos",$usuario,$contrasena);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                $ayapaneco = $_POST['ayapaneco'];
+                $id = $_POST['txtID'];
+                // Consulta para ver si nombre de cupón ya existe en la base de datos
+                //$sql = "SELECT * FROM palabras WHERE ayapaneco = :ayapaneco";
+                // Consulta para ver si nombre de cupón ya existe en la base de datos y que es diferente id que el propio (que llega en $_GET)
+                $sql = "SELECT * FROM palabras WHERE ayapaneco = :ayapaneco AND id != :id";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':ayapaneco', $ayapaneco);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+                
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                // Si el resultado es verdadero, el nombre ya existe y se muestra un mensaje de error
+                if ($resultado) {
+                        $errores['ayapaneco'] = "Ya existe esa palabra en ayapaneco";
+                }
+                
+                } catch(PDOException $e) {
+                echo "Error de conexión: ". $e->getMessage();
+                }
+        
+                //******Termina validación de existencia de palabra en bd*****
+        */
+
+        //Validar que la palabra en ayapaneco no esté vacia
+        if (empty($significado)){
+                $errores['significado']= "El significado es obligatorio";
+        }
+        //Validar si la palabra no tiene menos de 2 caracteres
+        if (strlen($ayapaneco) < 2) {
+                $errores['significado'] = "El significado debe tener al menos 2 caracteres";
+        }
+        //Validar si la palabra no tiene más de 15 caracteres
+        if (strlen($ayapaneco) > 20) {
+                $errores['significado'] = "El significado no puede tener más de 20 caracteres";
+        }
+
+        //Imprimir los errores
+        foreach($errores as $error){
+                $error;
+           }
+
+        //Si no hay errores (array de errores vacio)
+        if(empty($errores)){
+                
+                try{
+
+                //Preparar la inseción de los datos enviados por POST
+                $sentencia = $conexion->prepare("UPDATE palabras SET
+                ayapaneco=:ayapaneco,
+                variante=:variante,
+                afi=:afi,
+                id_categoria=:id_categoria,
+                significado=:significado,
+                ejemplo_aya=:ejemplo_aya,
+                ejemplo_esp=:ejemplo_esp,
+                raiz=:raiz
+                WHERE id=:id");
+                
+                //Asignar los valores que vienen del formulario (POST)
+                //Se convierte la palabra a minusculas antes de enviarlo a la BD con strtolower()
+                //se asigna el valor a variantes para evitar error 
+                $ayapaneco_min = strtolower($ayapaneco);
+                $variante_min = strtolower($variante);
+                $significado_min = strtolower($significado);
+
+                $sentencia->bindParam(":ayapaneco",$ayapaneco_min);
+                $sentencia->bindParam(":variante",$variante_min);
+                $sentencia->bindParam(":afi",$afi);
+                $sentencia->bindParam(":id_categoria",$id_categoria);
+                $sentencia->bindParam(":significado",$significado_min);
+                $sentencia->bindParam(":ejemplo_aya",$ejemplo_aya);
+                $sentencia->bindParam(":ejemplo_esp",$ejemplo_esp);
+                $sentencia->bindParam(":raiz",$raiz);
+                $sentencia->bindParam(":id",$txtID);
+
+                print_r($id_categoria);
+                //Se ejecuta la sentencia con los valores de param asignados
+                $sentencia->execute();
+                //Mensaje de confirmación de creado que activa Sweet Alert 2
+                $mensaje="Se actualizó la palabra";
+                //Redirecionar después de crear a la lista de cupones con link de Sweet Alert 2
+                header("Location:index.php?mensaje=".$mensaje);
+                }catch(Exception $ex){
+                echo "Error de conexión:".$ex->getMessage();
+                }
+        }else {
+        //La variable para mensaje de exito se actualiza a false si no se pudo insertar
+        $succes=false;
+        }
+
+    }
+        //query para obtener los nombres de las categorias gramaticales de la tabla categorias
+        $sentencia = $conexion->prepare("SELECT * FROM categorias");
+        $sentencia->execute();
+        //se guarda la setencia ejecutada en otra variable para llamarla con loop en selector
+        $categorias = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Se llama el header desde los templates-->
@@ -16,7 +177,11 @@ session_start();
 <div class="card mx-auto" style="width:50%;">
         <div class="card-header">Palabra</div>
                 <div class="card-body">
-                        <form action="crear.php" id="crearPalabras" method="post">
+                        <form action="editar.php" id="editarPalabras" method="post">
+                        <div class="mb-3">
+                                <label for="txtID" class="form-label">ID</label>
+                                <input type="text" class="form-control" value="<?php echo $txtID;?>" name="txtID" id="txtID" aria-describedby="helpId" readonly placeholder=""/>
+                        </div>
                         <div class="input-group">
                                 <div class="mb-3 mx-auto" style="width:48%;">
                                         <label for="ayapaneco" class="form-label">Palabra en ayapaneco</label>
@@ -87,9 +252,9 @@ session_start();
                         <div class="mb-3">
                                 <label for="id_categoria" class="form-label">Categoria gramatical</label>
                                 <select class="form-select form-select" name="id_categoria" id="id_categoria">
-                                <option value="" selected>Seleccione una</option>
                                 <?php foreach($categorias as $categoria){ ?>
-                                        <option value="<?php echo $categoria['id']?>"><?php echo $categoria["categoria"]?></option>
+                                        <option <?php echo ($id_categoria == $categoria['id'])?"selected":"";?> value="<?php echo $categoria['id']; ?>"><?php echo $categoria['categoria']; ?></option>
+                                </option>
                                 <?php }?>
                                 </select>
                                 <!--Inicio envio de mensaje de error-->
@@ -98,7 +263,7 @@ session_start();
                                 <?php endif; ?>
                                 <!--Fin envio de mensaje de error-->
                         </div>
-                                <button type="submit" class="btn btn-success">Crear</button>
+                                <button type="submit" class="btn btn-success">Editar</button>
                                 <a name="" id="" class="btn btn-primary" href="index.php" role="button">Cancelar</a>
                         </form>
                 </div>
