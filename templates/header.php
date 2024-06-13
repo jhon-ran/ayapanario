@@ -1,8 +1,8 @@
 <?php
 //url para conexión en hosting
-//$url_base = "/ayapanario/";
+$url_base = "/ayapanario/";
 //url de base en localhost para concatenar en la navbar y evitar errores de redirección (dinámica)
-$url_base = "http://localhost/ayapanario/";
+//$url_base = "http://localhost/ayapanario/";
 
 //si no existe la variable de sesión usuario_id, se redirige al login
 
