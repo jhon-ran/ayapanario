@@ -1,6 +1,6 @@
 <?php
 //url para conexión en hosting
-$url_base = "/ayapanario/";
+$url_base = "/";
 //url de base en localhost para concatenar en la navbar y evitar errores de redirección (dinámica)
 //$url_base = "http://localhost/ayapanario/";
 
