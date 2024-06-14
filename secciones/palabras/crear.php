@@ -81,14 +81,20 @@ if($_POST){
                 //Preparar la inseción de los datos enviados por POST
                 $sentencia = $conexion->prepare("INSERT INTO palabras(id,ayapaneco,variante,afi,id_categoria,significado,ejemplo_aya,ejemplo_esp,raiz) 
                 VALUES (null, :ayapaneco, :variante, :afi, :id_categoria, :significado, :ejemplo_aya, :ejemplo_esp, :raiz)");
+
+                //Se convierte la palabra a minusculas antes de enviarlo a la BD con strtolower()
+                //se asigna el valor a variantes para evitar error 
+                $ayapaneco_min = strtolower($ayapaneco);
+                $variante_min = strtolower($variante);
+                $significado_min = strtolower($significado);
                 
                 //Asignar los valores que vienen del formulario (POST)
                 //Se convierte la palabra a minusculas antes de enviarlo a la BD con strtolower()
-                $sentencia->bindParam(":ayapaneco",strtolower($ayapaneco));
-                $sentencia->bindParam(":variante",strtolower($variante));
+                $sentencia->bindParam(":ayapaneco",$ayapaneco_min);
+                $sentencia->bindParam(":variante",$variante_min);
                 $sentencia->bindParam(":afi",$afi);
                 $sentencia->bindParam(":id_categoria",$id_categoria);
-                $sentencia->bindParam(":significado",strtolower($significado));
+                $sentencia->bindParam(":significado",$significado_min);
                 $sentencia->bindParam(":ejemplo_aya",$ejemplo_aya);
                 $sentencia->bindParam(":ejemplo_esp",$ejemplo_esp);
                 $sentencia->bindParam(":raiz",$raiz);
