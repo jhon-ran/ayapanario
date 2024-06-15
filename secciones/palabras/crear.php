@@ -68,6 +68,10 @@ if($_POST){
                 $errores['significado'] = "El significado no puede tener más de 20 caracteres";
         }
 
+        if (empty($id_categoria)){
+                $errores['id_categoria']= "Debe seleccionar una categoria gramatical";
+         }
+
         //Imprimir los errores
         foreach($errores as $error){
                 $error;
@@ -130,7 +134,7 @@ if($_POST){
             <h1 class="text-light">Añadir palabra</h1>
 </header>
 <br>
-<div class="card mx-auto" style="width:50%;">
+<div class="card mx-auto" style="width:70%;">
         <div class="card-header">Nueva palabra</div>
                 <div class="card-body">
                         <form action="crear.php" id="crearPalabras" method="post">
