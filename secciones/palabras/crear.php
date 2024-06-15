@@ -140,8 +140,8 @@ if($_POST){
                         <form action="crear.php" id="crearPalabras" method="post">
                         <div class="input-group">
                                 <div class="mb-3 mx-auto" style="width:48%;">
-                                        <label for="ayapaneco" class="form-label">Palabra en ayapaneco</label>
-                                        <input type="text" class="form-control" name="ayapaneco" id="ayapaneco" aria-describedby="helpId" placeholder="Ingresa palabra" value="<?php echo isset($ayapaneco) ? $ayapaneco : ''; ?>" required/>
+                                        <label for="ayapaneco" class="form-label">Palabra</label>
+                                        <input type="text" class="form-control" name="ayapaneco" id="ayapaneco" aria-describedby="helpId" placeholder="En ayapaneco" value="<?php echo isset($ayapaneco) ? $ayapaneco : ''; ?>" required/>
                                         <!--Inicio envio de mensaje de error-->
                                         <?php if (isset($errores['ayapaneco'])): ?>
                                                 <div class="alert alert-danger mt-1"><?php echo $errores['ayapaneco']; ?></div>
