@@ -1,0 +1,25 @@
+:root { --bg:#fff; --txt:#111; --muted:#666; --line:#e9e9e9; --card:#fff; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--txt); }
+a { color: inherit; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 14px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; padding: 10px 14px; border-bottom: 1px solid var(--line); position: sticky; top:0; background:var(--bg); }
+.brand { font-weight:700; }
+.btn { border:1px solid var(--line); background:#fff; padding:10px 12px; border-radius:12px; cursor:pointer; text-decoration:none; }
+.controls { display:grid; grid-template-columns: 1fr; gap:10px; margin: 12px 0; }
+.controls input, .controls select { width:100%; padding: 12px 12px; border:1px solid var(--line); border-radius: 12px; font-size:16px; }
+.controls .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.meta { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
+.card { border:1px solid var(--line); border-radius:16px; padding: 12px; margin: 10px 0; background: var(--card); }
+.card h3 { margin:0 0 6px; font-size: 18px; }
+.small { color:var(--muted); font-size: 13px; }
+.def { margin: 8px 0; }
+.ej { margin: 8px 0 0 10px; }
+.ej .fr { font-style: italic; }
+.pager { display:flex; justify-content:space-between; align-items:center; gap:10px; margin: 12px 0; }
+.pager button { width: 48%; }
+@media (min-width: 720px) {
+  .controls { grid-template-columns: 1fr; }
+  .controls .row { grid-template-columns: 240px 160px; justify-content:end; }
+  .pager button { width:auto; }
+}
