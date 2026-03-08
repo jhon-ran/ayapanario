@@ -12,39 +12,67 @@ $u = auth_user();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Bootstrap 5 (solo CSS) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/app.css">
   <title>Buscar · Ayapanario</title>
 </head>
 <body>
+
+  <!-- Barra de navegación superior -->
   <div class="topbar">
-    <div class="brand">Ayapanario</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <span class="small"><?php echo h($u['email'] ?? ''); ?></span>
-      <a class="btn" href="logout.php">Salir</a>
+    <span class="brand">Ayapanario</span>
+    <div class="d-flex align-items-center gap-2">
+      <span class="topbar-user"><?php echo h($u['email'] ?? ''); ?></span>
+      <a class="btn btn-secundario" href="logout.php">Salir</a>
     </div>
   </div>
 
+  <!-- Contenido principal -->
   <div class="wrap">
-    <div class="controls">
-      <input id="q" type="search" placeholder="Buscar lema / ortografía / definición / ejemplos">
-      <div class="row">
-        <select id="categoria"><option value="">Todas</option></select>
+
+    <!-- Controles de búsqueda -->
+    <div class="controles">
+
+      <!-- Campo principal de búsqueda -->
+      <input
+        id="q"
+        type="search"
+        placeholder="Buscar palabra, definición, ejemplo…"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      >
+
+      <!-- Filtros secundarios -->
+      <div class="fila-filtros">
+        <select id="categoria">
+          <option value="">Todas las categorías</option>
+        </select>
         <select id="limit">
-          <option value="10">10</option>
-          <option value="20" selected>20</option>
-          <option value="50">50</option>
+          <option value="10">10 por página</option>
+          <option value="20" selected>20 por página</option>
+          <option value="50">50 por página</option>
         </select>
       </div>
-      <button id="btnBuscar" class="btn">Buscar</button>
+
+      <!-- Botón de búsqueda -->
+      <button id="btnBuscar" class="btn btn-primario">Buscar</button>
+
     </div>
 
-    <div id="meta" class="meta"></div>
+    <!-- Contador de resultados -->
+    <p id="meta" class="meta"></p>
+
+    <!-- Resultados -->
     <div id="results"></div>
 
+    <!-- Paginación -->
     <div class="pager">
-      <button id="prev" class="btn">&laquo; Anterior</button>
-      <button id="next" class="btn">Siguiente &raquo;</button>
+      <button id="prev" class="btn btn-secundario" disabled>&#8592; Anterior</button>
+      <button id="next" class="btn btn-secundario" disabled>Siguiente &#8594;</button>
     </div>
+
   </div>
 
   <script src="assets/app.js"></script>

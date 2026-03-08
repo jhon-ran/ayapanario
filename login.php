@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: buscar.php');
     exit;
   }
-  $error = 'Credenciales inválidas.';
+  $error = 'Correo o contraseña incorrectos.';
 }
 ?>
 <!doctype html>
@@ -23,22 +23,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Bootstrap 5 (solo CSS, sin JS — no se necesita para este formulario) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/app.css">
-  <title>Login · Ayapanario</title>
+  <title>Acceso · Ayapanario</title>
 </head>
 <body>
-  <div class="topbar"><div class="brand">Ayapanario</div></div>
-  <div class="wrap">
-    <h2>Iniciar sesión</h2>
-    <?php if($error): ?><div class="card"><?php echo h($error); ?></div><?php endif; ?>
-    <form method="post" class="controls">
-      <input name="email" type="email" placeholder="Correo" required>
-      <input name="password" type="password" placeholder="Contraseña" required>
-      <button class="btn" type="submit">Entrar</button>
-    </form>
-    <p class="small" style="margin-top:10px;color:#666;">
-      Solo usuarios registrados pueden consultar el diccionario.
-    </p>
+
+  <div class="login-wrap">
+
+    <!-- Encabezado -->
+    <div class="mb-4 text-center">
+      <p class="login-titulo">Ayapanario</p>
+      <p class="login-subtitulo">Diccionario bilingüe · Solo usuarios registrados</p>
+    </div>
+
+    <!-- Error de credenciales -->
+    <?php if ($error): ?>
+      <div class="alerta-error"><?php echo h($error); ?></div>
+    <?php endif; ?>
+
+    <!-- Formulario de acceso -->
+    <div class="card">
+      <form method="post" novalidate>
+
+        <div class="mb-3">
+          <label for="email" class="form-label" style="font-family:var(--fuente-ui);font-size:var(--tam-pequeno);font-weight:600;">
+            Correo electrónico
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="tu@correo.com"
+            required
+            autocomplete="email"
+            class="form-control"
+            style="border-radius:var(--radio);font-family:var(--fuente-ui);"
+          >
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label" style="font-family:var(--fuente-ui);font-size:var(--tam-pequeno);font-weight:600;">
+            Contraseña
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+            class="form-control"
+            style="border-radius:var(--radio);font-family:var(--fuente-ui);"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primario w-100">
+          Entrar
+        </button>
+
+      </form>
+    </div>
+
   </div>
+
 </body>
 </html>

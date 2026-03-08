@@ -1,25 +1,337 @@
-:root { --bg:#fff; --txt:#111; --muted:#666; --line:#e9e9e9; --card:#fff; }
-* { box-sizing: border-box; }
-body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--txt); }
-a { color: inherit; }
-.wrap { max-width: 980px; margin: 0 auto; padding: 14px; }
-.topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; padding: 10px 14px; border-bottom: 1px solid var(--line); position: sticky; top:0; background:var(--bg); }
-.brand { font-weight:700; }
-.btn { border:1px solid var(--line); background:#fff; padding:10px 12px; border-radius:12px; cursor:pointer; text-decoration:none; }
-.controls { display:grid; grid-template-columns: 1fr; gap:10px; margin: 12px 0; }
-.controls input, .controls select { width:100%; padding: 12px 12px; border:1px solid var(--line); border-radius: 12px; font-size:16px; }
-.controls .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
-.meta { color: var(--muted); font-size: 14px; margin: 6px 0 10px; }
-.card { border:1px solid var(--line); border-radius:16px; padding: 12px; margin: 10px 0; background: var(--card); }
-.card h3 { margin:0 0 6px; font-size: 18px; }
-.small { color:var(--muted); font-size: 13px; }
-.def { margin: 8px 0; }
-.ej { margin: 8px 0 0 10px; }
-.ej .fr { font-style: italic; }
-.pager { display:flex; justify-content:space-between; align-items:center; gap:10px; margin: 12px 0; }
-.pager button { width: 48%; }
-@media (min-width: 720px) {
-  .controls { grid-template-columns: 1fr; }
-  .controls .row { grid-template-columns: 240px 160px; justify-content:end; }
-  .pager button { width:auto; }
+/*
+ * Ayapanario — Hoja de estilos principal
+ * ──────────────────────────────────────
+ * Organización:
+ *   1. Variables (colores, tipografía, espaciado)
+ *   2. Base
+ *   3. Topbar / Navegación
+ *   4. Controles de búsqueda
+ *   5. Tarjetas de resultados
+ *   6. Página de detalle (ver.php)
+ *   7. Paginación
+ *   8. Utilidades
+ */
+
+/* ─── 1. VARIABLES ──────────────────────────────────────────────── */
+:root {
+  /* Paleta — cambia estos cuatro valores para cambiar todo el tema */
+  --color-primario:   #2d6a4f;   /* verde oscuro, color principal     */
+  --color-acento:     #52b788;   /* verde claro, hover / destacados   */
+  --color-fondo:      #f6f7f5;   /* fondo general de la página        */
+  --color-superficie: #ffffff;   /* fondo de tarjetas y topbar        */
+
+  /* Texto */
+  --color-texto:      #1b1b1b;
+  --color-muted:      #6c757d;
+  --color-borde:      #e0e4e0;
+
+  /* Tipografía */
+  --fuente-base: Georgia, 'Times New Roman', serif; /* cuerpo, ideal para diccionarios */
+  --fuente-ui:   system-ui, -apple-system, sans-serif; /* navegación, botones, etiquetas */
+  --tam-base:    16px;
+  --tam-pequeno: 13px;
+  --tam-grande:  1.2rem;
+
+  /* Espaciado y forma */
+  --radio:        10px;
+  --radio-grande: 16px;
+
+  /* Sombras */
+  --sombra-card: 0 1px 4px rgba(0,0,0,.07);
+}
+
+/* ─── 2. BASE ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente-base);
+  font-size: var(--tam-base);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--color-primario); text-decoration: none; }
+a:hover { color: var(--color-acento); }
+
+/* ─── 3. TOPBAR ─────────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--color-superficie);
+  border-bottom: 1px solid var(--color-borde);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.brand {
+  font-family: var(--fuente-ui);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-primario);
+  letter-spacing: -.01em;
+}
+
+.topbar-user {
+  font-family: var(--fuente-ui);
+  font-size: var(--tam-pequeno);
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+/* ─── 4. CONTROLES DE BÚSQUEDA ──────────────────────────────────── */
+.wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.controles {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.controles input,
+.controles select {
+  font-family: var(--fuente-ui);
+  font-size: var(--tam-base);
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  appearance: auto;
+}
+
+.controles input:focus,
+.controles select:focus {
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 3px rgba(82,183,136,.18);
+}
+
+/* Fila con dos filtros (categoría + cantidad) */
+.fila-filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Contador de resultados */
+.meta {
+  font-family: var(--fuente-ui);
+  font-size: var(--tam-pequeno);
+  color: var(--color-muted);
+  margin: 0 0 12px;
+}
+
+/* ─── 5. TARJETAS DE RESULTADOS ─────────────────────────────────── */
+.card {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-grande);
+  padding: 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--sombra-card);
+  transition: box-shadow .15s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
+}
+
+/* Lema (palabra principal) */
+.card-lema {
+  font-size: var(--tam-grande);
+  font-weight: 700;
+  color: var(--color-primario);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+/* Ortografía alternativa junto al lema */
+.card-ortografia {
+  font-size: var(--tam-pequeno);
+  color: var(--color-muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Metadatos (categoría, pronunciación) */
+.card-meta {
+  font-family: var(--fuente-ui);
+  font-size: var(--tam-pequeno);
+  color: var(--color-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Badge de categoría gramatical */
+.badge-cat {
+  font-family: var(--fuente-ui);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(45,106,79,.1);
+  color: var(--color-primario);
+}
+
+/* Definición */
+.card-definicion {
+  color: var(--color-texto);
+  margin: 6px 0 0;
+}
+
+/* Ejemplo de uso */
+.ejemplo {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-borde);
+}
+
+.ejemplo-frase {
+  font-style: italic;
+}
+
+.ejemplo-traduccion {
+  color: var(--color-muted);
+  font-size: 0.93em;
+}
+
+/* ─── 6. DETALLE DE ENTRADA (ver.php) ───────────────────────────── */
+.entrada-lema {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.seccion-titulo {
+  font-family: var(--fuente-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-muted);
+  margin: 0 0 10px;
+}
+
+/* ─── 7. PAGINACIÓN ─────────────────────────────────────────────── */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 28px;
+}
+
+.pager .btn { flex: 1; }
+
+@media (min-width: 600px) {
+  .pager .btn { flex: unset; min-width: 130px; }
+}
+
+/* ─── 8. UTILIDADES ─────────────────────────────────────────────── */
+
+/* Botón base */
+.btn {
+  font-family: var(--fuente-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+
+.btn-primario {
+  background: var(--color-primario);
+  color: #fff;
+  border-color: var(--color-primario);
+}
+.btn-primario:hover {
+  background: #235c42;
+  border-color: #235c42;
+  color: #fff;
+}
+
+.btn-secundario {
+  background: var(--color-superficie);
+  color: var(--color-primario);
+  border-color: var(--color-borde);
+}
+.btn-secundario:hover {
+  background: rgba(45,106,79,.07);
+  border-color: var(--color-acento);
+  color: var(--color-primario);
+}
+
+/* Alerta de error */
+.alerta-error {
+  font-family: var(--fuente-ui);
+  font-size: 0.9rem;
+  background: #fff3f3;
+  border: 1px solid #f5c6cb;
+  color: #842029;
+  border-radius: var(--radio);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+/* Sin resultados */
+.sin-resultados {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--color-muted);
+  font-family: var(--fuente-ui);
+}
+
+/* Login */
+.login-wrap {
+  max-width: 360px;
+  margin: 64px auto;
+  padding: 0 16px;
+}
+
+.login-titulo {
+  font-family: var(--fuente-ui);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-primario);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.login-subtitulo {
+  font-family: var(--fuente-ui);
+  font-size: var(--tam-pequeno);
+  color: var(--color-muted);
+  text-align: center;
+  margin-bottom: 24px;
 }
