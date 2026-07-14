@@ -10,3 +10,4 @@ if (auth_user()) {
   header('Location: login.php');
 }
 exit;
+
